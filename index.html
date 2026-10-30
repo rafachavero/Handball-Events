@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HE | Handball Events & Campus CHI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,600;0,700;1,700;1,800&family=Cormorant+Garamond:wght@600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #06080c;
+      --bg-court: #0b0f17;
+      --bg-card: rgba(15, 21, 33, 0.9);
+      --bg-glass: rgba(12, 16, 26, 0.84);
+
+      --gold-light: #fff3b0;
+      --gold-primary: #f5c542;
+      --gold-editorial: #c99e4c;
+      --gold-mid: #d49b27;
+
+      --chi-blue: #0ea5e9;
+      --chi-blue-light: #38bdf8;
+
+      --text-white: #f8fafc;
+      --text-silver: #dbe3ef;
+      --text-muted: #94a3b8;
+
+      --border-gold: rgba(245, 197, 66, 0.34);
+      --border-subtle: rgba(255, 255, 255, 0.09);
+
+      --gradient-gold: linear-gradient(135deg, #fff3b0 0%, #f5c542 45%, #c58917 85%, #f5c542 100%);
+      --gradient-dark-card: linear-gradient(165deg, rgba(22, 30, 46, 0.94) 0%, rgba(9, 13, 21, 0.98) 100%);
+
+      --shadow-card: 0 24px 50px -15px rgba(0, 0, 0, 0.85);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 24px;
+
+      --font-display: 'Chakra Petch', 'Montserrat', sans-serif;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-deep);
+      color: var(--text-white);
+      font-family: var(--font-sans);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(14, 165, 233, 0.14) 0%, transparent 38%),
+        radial-gradient(circle at 85% 16%, rgba(245, 197, 66, 0.16) 0%, transparent 42%),
+        radial-gradient(ellipse at 50% 100%, rgba(245, 197, 66, 0.12) 0%, transparent 60%),
+        var(--bg-deep);
+      position: relative;
+    }
+
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.75;
+    }
+
+    /* ==========================================================================
+       NAVBAR & LANGUAGE FLAGS
+       ========================================================================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(6, 8, 12, 0.88);
+      border-bottom: 1px solid var(--border-gold);
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.8rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-white);
+      flex-shrink: 0;
+    }
+
+    .brand-emblem {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1a2234 0%, #090d14 100%);
+      border: 1.5px solid var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-style: italic;
+      font-size: 1.25rem;
+      box-shadow: 0 0 15px rgba(245, 197, 66, 0.3);
+    }
+
+    .brand-emblem span {
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-style: italic;
+      font-size: 1.15rem;
+      letter-spacing: 1px;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 3.5px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-silver);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-primary);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-gold);
+      padding: 0.28rem;
+      border-radius: 999px;
+    }
+
+    .flag-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: transparent;
+      border: 1.5px solid transparent;
+      border-radius: 999px;
+      padding: 0.28rem 0.6rem;
+      color: var(--text-silver);
+      font-family: var(--font-sans);
+      font-size: 0.74rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .flag-btn:hover {
+      color: var(--text-white);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .flag-btn.active {
+      background: rgba(245, 197, 66, 0.2);
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      box-shadow: 0 0 12px rgba(245, 197, 66, 0.3);
+    }
+
+    .flag-icon {
+      width: 22px;
+      height: 15px;
+      border-radius: 3px;
+      overflow: hidden;
+      display: inline-block;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+      flex-shrink: 0;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      border-radius: var(--radius-sm);
+      padding: 0.45rem 0.65rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       BUTTONS
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 0.72rem 1.35rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-gold {
+      background: var(--gradient-gold);
+      color: #090c12;
+      box-shadow: 0 4px 20px rgba(245, 197, 66, 0.35);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(245, 197, 66, 0.55);
+    }
+
+    .btn-outline-gold {
+      background: rgba(245, 197, 66, 0.08);
+      color: var(--gold-primary);
+      border: 1px solid var(--border-gold);
+    }
+
+    .btn-outline-gold:hover {
+      background: rgba(245, 197, 66, 0.18);
+      border-color: var(--gold-primary);
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       HERO SECTION
+       ========================================================================== */
+    .hero {
+      position: relative;
+      z-index: 1;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3.5rem;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .badge-chi {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.38rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: #7dd3fc;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .badge-chi strong {
+      color: var(--gold-primary);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5.2vw, 4.3rem);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1.02;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-title .metallic-white {
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title .metallic-gold {
+      display: block;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 20px rgba(245, 197, 66, 0.32));
+    }
+
+    .hero-events-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .hero-events-divider .line {
+      height: 2px;
+      flex: 1;
+      max-width: 90px;
+      background: linear-gradient(90deg, transparent, var(--gold-primary));
+    }
+
+    .hero-events-divider .line.right {
+      background: linear-gradient(90deg, var(--gold-primary), transparent);
+    }
+
+    .hero-events-divider span {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 6px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+    }
+
+    .hero-description {
+      color: var(--text-silver);
+      font-size: clamp(0.95rem, 1.5vw, 1.08rem);
+      line-height: 1.65;
+      max-width: 580px;
+      margin-bottom: 1.85rem;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .poster-frame {
+      position: relative;
+      width: 100%;
+      max-width: 410px;
+      border-radius: var(--radius-lg);
+      padding: 5px;
+      background: linear-gradient(145deg, rgba(245, 197, 66, 0.78), rgba(14, 165, 233, 0.5), rgba(245, 197, 66, 0.25));
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 45px rgba(245, 197, 66, 0.22);
+    }
+
+    .poster-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: calc(var(--radius-lg) - 4px);
+    }
+
+    .court-reflection {
+      position: absolute;
+      bottom: -26px;
+      left: 10%;
+      right: 10%;
+      height: 44px;
+      background: radial-gradient(ellipse at center, rgba(245, 197, 66, 0.45) 0%, rgba(245, 197, 66, 0.1) 50%, transparent 75%);
+      filter: blur(14px);
+      z-index: -1;
+    }
+
+    /* ==========================================================================
+       HTML5 EDITORIAL SECTIONS (QUI SOM?, QUÈ FEM?, PROGRAMES DESTACATS)
+       ========================================================================== */
+    .section {
+      position: relative;
+      z-index: 1;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 2.75rem 1.25rem;
+    }
+
+    .editorial-panel {
+      position: relative;
+      background: var(--gradient-dark-card);
+      border: 1.5px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: clamp(2rem, 5vw, 3.75rem) clamp(1.5rem, 5vw, 4rem);
+      box-shadow: var(--shadow-card), 0 0 40px rgba(245, 197, 66, 0.1);
+      overflow: hidden;
+    }
+
+    /* Diagonal gold accent lines inspired by the original graphics */
+    .editorial-panel::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      left: -40px;
+      width: 140px;
+      height: 140px;
+      border-right: 2px solid rgba(245, 197, 66, 0.45);
+      transform: rotate(32deg);
+      pointer-events: none;
+    }
+
+    .editorial-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      border-left: 2px solid rgba(245, 197, 66, 0.45);
+      transform: rotate(32deg);
+      pointer-events: none;
+    }
+
+    /* Mini HE Header Badge inside each HTML5 section */
+    .panel-brand-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.35rem;
+      text-align: center;
+    }
+
+    .panel-he-mark {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-style: italic;
+      font-size: 2rem;
+      line-height: 1;
+      letter-spacing: -1px;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 10px rgba(245, 197, 66, 0.3));
+    }
+
+    .panel-he-sub {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: var(--text-white);
+      text-transform: uppercase;
+      margin-top: 0.15rem;
+    }
+
+    .panel-he-events {
+      font-size: 0.58rem;
+      letter-spacing: 4px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    /* Serif Section Title matching the slides (e.g. QUI SOM?, QUÈ FEM?, PROGRAMES DESTACATS) */
+    .editorial-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 6vw, 4.1rem);
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      line-height: 1.08;
+      margin-bottom: 2.2rem;
+      color: var(--text-white);
+    }
+
+    .editorial-heading span {
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* QUI SOM paragraphs */
+    .qui-som-content {
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1.65rem;
+    }
+
+    .qui-som-content p {
+      font-size: clamp(0.98rem, 1.6vw, 1.14rem);
+      line-height: 1.75;
+      color: var(--text-silver);
+      font-weight: 400;
+    }
+
+    .qui-som-content p strong {
+      color: var(--gold-light);
+      font-weight: 700;
+    }
+
+    /* QUÈ FEM list with icons */
+    .que-fem-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    .que-fem-item {
+      display: grid;
+      grid-template-columns: 92px 2px 1fr;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.65rem 0;
+      border-bottom: 1px solid rgba(245, 197, 66, 0.28);
+    }
+
+    .que-fem-item:last-child {
+      border-bottom: none;
+    }
+
+    .que-fem-icon-circle {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-primary);
+      background: rgba(245, 197, 66, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-primary);
+      margin: 0 auto;
+      box-shadow: 0 0 22px rgba(245, 197, 66, 0.15);
+      flex-shrink: 0;
+    }
+
+    .que-fem-icon-circle svg {
+      width: 38px;
+      height: 38px;
+    }
+
+    .que-fem-vline {
+      width: 2px;
+      height: 75%;
+      min-height: 54px;
+      background: rgba(245, 197, 66, 0.45);
+    }
+
+    .que-fem-text {
+      text-align: center;
+    }
+
+    .que-fem-text h3 {
+      font-family: var(--font-sans);
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--gold-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .que-fem-text p {
+      font-size: clamp(0.92rem, 1.45vw, 1.04rem);
+      line-height: 1.65;
+      color: var(--text-silver);
+    }
+
+    /* PROGRAMES DESTACATS blocks */
+    .programes-container {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .programa-block h3 {
+      font-family: var(--font-sans);
+      font-size: clamp(1.12rem, 2vw, 1.35rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+    }
+
+    .programa-block p {
+      font-size: clamp(0.95rem, 1.5vw, 1.08rem);
+      line-height: 1.75;
+      color: var(--text-silver);
+      margin-bottom: 0.85rem;
+    }
+
+    .programa-block p:last-child {
+      margin-bottom: 0;
+    }
+
+    .gold-divider-bar {
+      width: 72%;
+      max-width: 480px;
+      height: 2px;
+      margin: 0.25rem auto;
+      background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+    }
+
+    /* ==========================================================================
+       SINGLE FEATURED EVENT SECTION
+       ========================================================================== */
+    .single-event-card {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--gradient-dark-card);
+      border: 1.5px solid var(--gold-primary);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-card), 0 0 40px rgba(245, 197, 66, 0.18);
+      position: relative;
+    }
+
+    .single-event-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--chi-blue), var(--gold-primary));
+    }
+
+    .single-event-inner {
+      padding: 2.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .single-event-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .event-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #38bdf8;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .event-status-pill {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      background: rgba(245, 197, 66, 0.14);
+      border: 1px solid var(--border-gold);
+      padding: 0.32rem 0.8rem;
+      border-radius: 999px;
+    }
+
+    .single-event-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 3vw, 2.25rem);
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      color: var(--text-white);
+      line-height: 1.15;
+    }
+
+    .single-event-desc {
+      color: var(--text-silver);
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+
+    .single-event-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      padding: 1.15rem;
+      background: rgba(6, 8, 12, 0.65);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .meta-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(245, 197, 66, 0.12);
+      border: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-primary);
+      flex-shrink: 0;
+    }
+
+    .meta-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      font-weight: 700;
+      display: block;
+    }
+
+    .meta-value {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+    .footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border-gold);
+      background: rgba(4, 6, 10, 0.95);
+      padding: 2.25rem 1.25rem;
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS (Mobile, Tablet, Desktop)
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 1.75rem;
+      }
+      .hero-badges,
+      .hero-events-divider,
+      .hero-cta-group {
+        justify-content: center;
+      }
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(8, 11, 18, 0.98);
+        border-bottom: 1px solid var(--border-gold);
+        flex-direction: column;
+        padding: 1.1rem;
+        gap: 1rem;
+      }
+
+      .nav-links.mobile-open {
+        display: flex;
+      }
+
+      .mobile-menu-btn {
+        display: inline-flex;
+      }
+
+      .flag-btn span.flag-code {
+        display: none;
+      }
+
+      .flag-btn {
+        padding: 0.35rem 0.45rem;
+      }
+
+      .que-fem-item {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .que-fem-vline {
+        display: none;
+      }
+
+      .single-event-inner {
+        padding: 1.4rem;
+      }
+
+      .hero-cta-group .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <div class="brand-emblem"><span>HE</span></div>
+        <div class="brand-text">
+          <span class="brand-title">Handball</span>
+          <span class="brand-subtitle">Events &bull; CHI</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#qui-som" id="nav-qui-som" onclick="closeMobileMenu()">Qui Som</a></li>
+        <li><a href="#que-fem" id="nav-que-fem" onclick="closeMobileMenu()">Què Fem</a></li>
+        <li><a href="#programes" id="nav-programes" onclick="closeMobileMenu()">Programes Destacats</a></li>
+        <li><a href="#esdeveniment" id="nav-event" onclick="closeMobileMenu()">Esdeveniment</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <!-- Selector d'idioma amb banderes: Català (per defecte), Espanyol i Anglès -->
+        <div class="lang-switcher" role="group" aria-label="Selector d'idioma">
+          <!-- Català (Senyera) -->
+          <button type="button" class="flag-btn active" id="btn-lang-ca" onclick="setLanguage('ca')" title="Català">
+            <svg class="flag-icon" viewBox="0 0 27 18" xmlns="http://www.w3.org/2000/svg">
+              <rect width="27" height="18" fill="#FCDD09"/>
+              <path stroke="#DA121A" stroke-width="2" d="M0,3H27 M0,7H27 M0,11H27 M0,15H27"/>
+            </svg>
+            <span class="flag-code">CAT</span>
+          </button>
+
+          <!-- Español -->
+          <button type="button" class="flag-btn" id="btn-lang-es" onclick="setLanguage('es')" title="Español">
+            <svg class="flag-icon" viewBox="0 0 27 18" xmlns="http://www.w3.org/2000/svg">
+              <rect width="27" height="18" fill="#AA151B"/>
+              <rect y="4.5" width="27" height="9" fill="#F1BF00"/>
+            </svg>
+            <span class="flag-code">ESP</span>
+          </button>
+
+          <!-- English (UK) -->
+          <button type="button" class="flag-btn" id="btn-lang-en" onclick="setLanguage('en')" title="English">
+            <svg class="flag-icon" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+              <clipPath id="uk-clip"><path d="M0,0 v30 h60 v-30 z"/></clipPath>
+              <g clip-path="url(#uk-clip)">
+                <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+                <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+                <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="2"/>
+                <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
+                <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+              </g>
+            </svg>
+            <span class="flag-code">ENG</span>
+          </button>
+        </div>
+
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menú">
+          &#9776;
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badges">
+        <span class="badge-chi">&#9917; <span id="hero-badge-text">Oficial</span> <strong>CAMPUS CHI</strong></span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="metallic-white">HANDBALL</span>
+        <span class="metallic-gold">EVENTS</span>
+      </h1>
+
+      <div class="hero-events-divider">
+        <span class="line"></span>
+        <span id="hero-tagline">EXPERIÈNCIA D'ELIT</span>
+        <span class="line right"></span>
+      </div>
+
+      <p class="hero-description" id="hero-desc">
+        Handball Events neix de l'evolució del Campus CHI i de l'experiència adquirida en campus i projectes d'handbol d'àmbit nacional i internacional.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#qui-som" class="btn btn-gold" id="hero-btn-primary">Descobreix Qui Som</a>
+        <a href="#esdeveniment" class="btn btn-outline-gold" id="hero-btn-secondary">Veure Pròxim Esdeveniment</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="poster-frame">
+        <img
+          src="../.user_uploaded/media_1793366709397_b7a377b7.jpg"
+          onerror="this.src='assets/hero-poster.jpg'"
+          alt="HE Handball Events - Campus CHI"
+        />
+      </div>
+      <div class="court-reflection"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       APARTAT 1: QUI SOM? (100% HTML5)
+       ======================================================================== -->
+  <section class="section" id="qui-som">
+    <div class="editorial-panel">
+      <div class="panel-brand-top">
+        <span class="panel-he-mark">HE</span>
+        <span class="panel-he-sub">HANDBALL</span>
+        <span class="panel-he-events">— EVENTS —</span>
+      </div>
+
+      <h2 class="editorial-heading" id="qui-som-heading">QUI <span>SOM?</span></h2>
+
+      <div class="qui-som-content">
+        <p id="qui-som-p1"></p>
+        <p id="qui-som-p2"></p>
+        <p id="qui-som-p3"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       APARTAT 2: QUÈ FEM? (100% HTML5 + SVG Icons)
+       ======================================================================== -->
+  <section class="section" id="que-fem">
+    <div class="editorial-panel">
+      <div class="panel-brand-top">
+        <span class="panel-he-mark">HE</span>
+        <span class="panel-he-sub">HANDBALL</span>
+        <span class="panel-he-events">— EVENTS —</span>
+      </div>
+
+      <h2 class="editorial-heading" id="que-fem-heading">QUÈ <span>FEM?</span></h2>
+
+      <div class="que-fem-list">
+        <!-- Item 1: Organització d'esdeveniments -->
+        <div class="que-fem-item">
+          <div class="que-fem-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+              <rect x="7" y="13" width="2" height="2"></rect>
+              <rect x="11" y="13" width="2" height="2"></rect>
+              <rect x="15" y="13" width="2" height="2"></rect>
+              <rect x="7" y="17" width="2" height="2"></rect>
+              <rect x="11" y="17" width="2" height="2"></rect>
+            </svg>
+          </div>
+          <div class="que-fem-vline"></div>
+          <div class="que-fem-text">
+            <h3 id="qf-1-title"></h3>
+            <p id="qf-1-desc"></p>
+          </div>
+        </div>
+
+        <!-- Item 2: Col·laboracions i projectes esportius -->
+        <div class="que-fem-item">
+          <div class="que-fem-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 17a4 4 0 0 1-8 0V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2z"></path>
+              <path d="M16.7 13H19a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7"></path>
+              <path d="M 7 10 h 10"></path>
+              <path d="M12 7l5 5-5 5"></path>
+            </svg>
+          </div>
+          <div class="que-fem-vline"></div>
+          <div class="que-fem-text">
+            <h3 id="qf-2-title"></h3>
+            <p id="qf-2-desc"></p>
+          </div>
+        </div>
+
+        <!-- Item 3: Formació especialitzada -->
+        <div class="que-fem-item">
+          <div class="que-fem-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </div>
+          <div class="que-fem-vline"></div>
+          <div class="que-fem-text">
+            <h3 id="qf-3-title"></h3>
+            <p id="qf-3-desc"></p>
+          </div>
+        </div>
+
+        <!-- Item 4: Direcció i assessorament esportiu -->
+        <div class="que-fem-item">
+          <div class="que-fem-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="14"></line>
+              <line x1="6" y1="20" x2="6" y2="16"></line>
+              <line x1="21" y1="20" x2="21" y2="6"></line>
+            </svg>
+          </div>
+          <div class="que-fem-vline"></div>
+          <div class="que-fem-text">
+            <h3 id="qf-4-title"></h3>
+            <p id="qf-4-desc"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       APARTAT 3: PROGRAMES DESTACATS (100% HTML5)
+       ======================================================================== -->
+  <section class="section" id="programes">
+    <div class="editorial-panel">
+      <div class="panel-brand-top">
+        <span class="panel-he-mark">HE</span>
+        <span class="panel-he-sub">HANDBALL</span>
+        <span class="panel-he-events">— EVENTS —</span>
+      </div>
+
+      <h2 class="editorial-heading" id="programes-heading">PROGRAMES <br><span>DESTACATS</span></h2>
+
+      <div class="programes-container">
+        <div class="programa-block">
+          <h3 id="prog-1-title">HIGH PERFORMANCE DAY</h3>
+          <p id="prog-1-p1"></p>
+          <p id="prog-1-p2"></p>
+        </div>
+
+        <div class="gold-divider-bar"></div>
+
+        <div class="programa-block">
+          <h3 id="prog-2-title"></h3>
+          <p id="prog-2-p1"></p>
+          <p id="prog-2-p2"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       APARTAT 4: UN ÚNIC ESDEVENIMENT DESTACAT
+       ======================================================================== -->
+  <section class="section" id="esdeveniment">
+    <div class="editorial-panel">
+      <h2 class="editorial-heading" id="title-event">PRÒXIM <span>ESDEVENIMENT</span></h2>
+
+      <article class="single-event-card">
+        <div class="single-event-inner">
+          <div class="single-event-top">
+            <span class="event-badge" id="ev-badge">Campus d'Estiu &bull; Campus CHI</span>
+            <span class="event-status-pill" id="ev-status">Pròximament</span>
+          </div>
+
+          <h3 class="single-event-title" id="ev-name">CAMPUS CHI — HANDBALL EVENTS</h3>
+
+          <p class="single-event-desc" id="ev-desc"></p>
+
+          <div class="single-event-meta">
+            <div class="meta-item">
+              <div class="meta-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </div>
+              <div>
+                <span class="meta-label" id="ev-dates-label">Dates de l'Esdeveniment</span>
+                <span class="meta-value" id="ev-dates-value">Per confirmar</span>
+              </div>
+            </div>
+
+            <div class="meta-item">
+              <div class="meta-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div>
+                <span class="meta-label" id="ev-org-label">Organització</span>
+                <span class="meta-value">HE &bull; Handball Events &amp; Campus CHI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p id="footer-text">
+      &copy; 2026 <strong>HE &bull; HANDBALL EVENTS &amp; CAMPUS CHI</strong>. Tots els drets reservats.
+    </p>
+  </footer>
+
+  <script>
+    const I18N = {
+      ca: {
+        langAttr: 'ca',
+        navQuiSom: 'Qui Som',
+        navQueFem: 'Què Fem',
+        navProgrames: 'Programes Destacats',
+        navEvent: 'Esdeveniment',
+        heroBadge: 'Oficial',
+        heroTagline: "EXPERIÈNCIA D'ELIT",
+        heroDesc: "Handball Events neix de l'evolució del Campus CHI i de l'experiència adquirida a través de la participació i col·laboració en campus i projectes d'handbol d'àmbit nacional i internacional.",
+        heroBtnPrimary: 'Descobreix Qui Som',
+        heroBtnSecondary: 'Veure Pròxim Esdeveniment',
+
+        /* QUI SOM? */
+        quiSomHeading: 'QUI <span>SOM?</span>',
+        quiSomP1: "Handball Events neix de l'evolució del Campus CHI i de l'experiència adquirida a través de la participació i col·laboració en campus i projectes d'handbol d'àmbit nacional i internacional.",
+        quiSomP2: "El projecte està liderat per <strong>Nil Subirana</strong>, graduat en Ciències de l'Activitat Física i de l'Esport (CAFE), Entrenador Superior d'Handbol (Nacional) i entrenador de la base del FC Barcelona.",
+        quiSomP3: "Comptem amb un equip multidisciplinari de professionals qualificats: entrenadors i entrenadores amb especialització tecnicotàctica en les diferents posicions de joc, preparadors físics, fisioterapeutes i especialistes en videoanàlisi.",
+
+        /* QUÈ FEM? */
+        queFemHeading: 'QUÈ <span>FEM?</span>',
+        qf1Title: "ORGANITZACIÓ D'ESDEVENIMENTS",
+        qf1Desc: "Disseny, planificació, execució i gestió integral de campus, tecnificacions, tornejos, colònies, stages i jornades esportives, incloent-hi la coordinació tècnica, la promoció i la captació de participants.",
+        qf2Title: "COL·LABORACIONS I PROJECTES ESPORTIUS",
+        qf2Desc: "Creació d'aliances estratègiques entre clubs i entitats per impulsar iniciatives conjuntes, compartir recursos i desenvolupar projectes esportius d'àmbit nacional i internacional.",
+        qf3Title: "FORMACIÓ ESPECIALITZADA",
+        qf3Desc: "Organització de formacions, clínics, seminaris i jornades de desenvolupament professional dirigides a entrenadors, entrenadores i equips tècnics.",
+        qf4Title: "DIRECCIÓ I ASSESSORAMENT ESPORTIU",
+        qf4Desc: "Assessorament tècnic, metodològic i organitzatiu per a clubs i entitats, amb el suport de professionals especialitzats.",
+
+        /* PROGRAMES DESTACATS */
+        programesHeading: 'PROGRAMES <br><span>DESTACATS</span>',
+        prog1Title: 'HIGH PERFORMANCE DAY',
+        prog1P1: "Una jornada intensiva d'alt rendiment orientada al desenvolupament integral de jugadors i jugadores, que integra entrenament tecnicotàctic específic per posicions de joc, proves d'avaluació de la condició física, videoanàlisi i trobades tècniques amb jugadors, jugadores i entrenadors de trajectòria professional.",
+        prog1P2: "Una experiència immersiva, amb àpats inclosos, que combina formació pràctica, intercanvi de coneixements i avaluació individualitzada del rendiment, amb l'objectiu d'obtenir indicadors objectius, elaborar informes personalitzats i identificar àrees de millora.",
+        prog2Title: 'HE PLAYER | ASSESSORAMENT INDIVIDUAL',
+        prog2P1: "Un programa d'assessorament i seguiment individualitzat del rendiment, fonamentat en la videoanàlisi de situacions reals de competició i l'avaluació tecnicotàctica.",
+        prog2P2: "Mitjançant una anàlisi sistemàtica del joc, s'identifiquen fortaleses i àrees de millora, s'estableixen objectius específics i es realitza un seguiment de l'evolució esportiva adaptat al perfil i les necessitats de cada jugador o jugadora.",
+
+        /* ESDEVENIMENT */
+        titleEvent: 'PRÒXIM <span>ESDEVENIMENT</span>',
+        evBadge: "Campus d'Estiu • Campus CHI",
+        evStatus: 'Pròximament',
+        evName: 'CAMPUS CHI — HANDBALL EVENTS',
+        evDesc: "Viu una experiència inoblidable d'handbol amb entrenaments d'alta tecnificació, formació tàctica i convivència esportiva. Molt aviat anunciarem les dates oficials.",
+        evDatesLabel: "Dates de l'Esdeveniment",
+        evDatesValue: 'Per confirmar',
+        evOrgLabel: 'Organització',
+        footerText: '© 2026 <strong>HE • HANDBALL EVENTS & CAMPUS CHI</strong>. Tots els drets reservats.'
+      },
+      es: {
+        langAttr: 'es',
+        navQuiSom: 'Quiénes Somos',
+        navQueFem: 'Qué Hacemos',
+        navProgrames: 'Programas Destacados',
+        navEvent: 'Evento',
+        heroBadge: 'Oficial',
+        heroTagline: 'EXPERIENCIA DE ÉLITE',
+        heroDesc: 'Handball Events nace de la evolución del Campus CHI y de la experiencia adquirida a través de la participación y colaboración en campus y proyectos de balonmano de ámbito nacional e internacional.',
+        heroBtnPrimary: 'Descubre Quiénes Somos',
+        heroBtnSecondary: 'Ver Próximo Evento',
+
+        /* QUIÉNES SOMOS? */
+        quiSomHeading: '¿QUIÉNES <span>SOMOS?</span>',
+        quiSomP1: 'Handball Events nace de la evolución del Campus CHI y de la experiencia adquirida a través de la participación y colaboración en campus y proyectos de balonmano de ámbito nacional e internacional.',
+        quiSomP2: 'El proyecto está liderado por <strong>Nil Subirana</strong>, graduado en Ciencias de la Actividad Física y del Deporte (CAFE), Entrenador Superior de Balonmano (Nacional) y entrenador de las categorías de base del FC Barcelona.',
+        quiSomP3: 'Contamos con un equipo multidisciplinar de profesionales cualificados: entrenadores y entrenadoras con especialización técnico-táctica en las diferentes posiciones de juego, preparadores físicos, fisioterapeutas y especialistas en videoanálisis.',
+
+        /* QUÉ HACEMOS? */
+        queFemHeading: '¿QUE <span>HACEMOS?</span>',
+        qf1Title: 'ORGANIZACIÓN DE EVENTOS',
+        qf1Desc: 'Diseño, planificación, ejecución y gestión integral de campus, tecnificaciones, torneos, colonias, stages y jornadas deportivas, incluyendo la coordinación técnica, la promoción y la captación de participantes.',
+        qf2Title: 'COLABORACIONES Y PROYECTOS DEPORTIVOS',
+        qf2Desc: 'Creación de alianzas estratégicas entre clubes y entidades para impulsar iniciativas conjuntas, compartir recursos y desarrollar proyectos deportivos de ámbito nacional e internacional.',
+        qf3Title: 'FORMACIÓN ESPECIALIZADA',
+        qf3Desc: 'Organización de formaciones, clínics, seminarios y jornadas de desarrollo profesional dirigidas a entrenadores, entrenadoras y cuerpos técnicos.',
+        qf4Title: 'DIRECCIÓN Y ASESORAMIENTO DEPORTIVO',
+        qf4Desc: 'Asesoramiento técnico, metodológico y organizativo para clubes y entidades, con el apoyo de profesionales especializados.',
+
+        /* PROGRAMAS DESTACADOS */
+        programesHeading: 'PROGRAMAS <br><span>DESTACADOS</span>',
+        prog1Title: 'HIGH PERFORMANCE DAY',
+        prog1P1: 'Una jornada intensiva de alto rendimiento orientada al desarrollo integral de jugadores y jugadoras, que integra entrenamiento técnico-táctico específico por posiciones de juego, pruebas de evaluación de la condición física, videoanálisis y encuentros técnicos con jugadores, jugadoras y entrenadores de trayectoria profesional.',
+        prog1P2: 'Una experiencia inmersiva, con comidas incluidas, que combina formación práctica, intercambio de conocimientos y evaluación individualizada del rendimiento, con el objetivo de obtener indicadores objetivos, elaborar informes personalizados e identificar áreas de mejora.',
+        prog2Title: 'HE PLAYER | ASESORAMIENTO INDIVIDUAL',
+        prog2P1: 'Un programa de asesoramiento y seguimiento individualizado del rendimiento, fundamentado en el videoanálisis de situaciones reales de competición y la evaluación técnico-táctica.',
+        prog2P2: 'Mediante un análisis sistemático del juego, se identifican fortalezas y áreas de mejora, se establecen objetivos específicos y se realiza un seguimiento de la evolución deportiva adaptado al perfil y las necesidades de cada jugador o jugadora.',
+
+        /* EVENTO */
+        titleEvent: 'PRÓXIMO <span>EVENTO</span>',
+        evBadge: 'Campus de Verano • Campus CHI',
+        evStatus: 'Próximamente',
+        evName: 'CAMPUS CHI — HANDBALL EVENTS',
+        evDesc: 'Vive una experiencia inolvidable de balonmano con entrenamientos de alta tecnificación, formación táctica y convivencia deportiva. Muy pronto anunciaremos las fechas oficiales.',
+        evDatesLabel: 'Fechas del Evento',
+        evDatesValue: 'Por confirmar',
+        evOrgLabel: 'Organización',
+        footerText: '© 2026 <strong>HE • HANDBALL EVENTS & CAMPUS CHI</strong>. Todos los derechos reservados.'
+      },
+      en: {
+        langAttr: 'en',
+        navQuiSom: 'Who Are We',
+        navQueFem: 'What Do We Do',
+        navProgrames: 'Featured Programs',
+        navEvent: 'Event',
+        heroBadge: 'Official',
+        heroTagline: 'ELITE EXPERIENCE',
+        heroDesc: 'Handball Events was born from the evolution of Campus CHI and the experience gained through participation and collaboration in handball camps and projects at national and international levels.',
+        heroBtnPrimary: 'Discover Who We Are',
+        heroBtnSecondary: 'View Upcoming Event',
+
+        /* WHO ARE WE? */
+        quiSomHeading: 'WHO ARE <span>WE?</span>',
+        quiSomP1: 'Handball Events was born from the evolution of Campus CHI and the experience gained through participation and collaboration in handball camps and projects at national and international levels.',
+        quiSomP2: 'The project is led by <strong>Nil Subirana</strong>, a graduate in Physical Activity and Sport Sciences (CAFE), qualified as an Advanced Handball Coach (National Level), and currently a youth academy coach at FC Barcelona.',
+        quiSomP3: 'We have a multidisciplinary team of qualified professionals: coaches specialising in technical and tactical development across different playing positions, strength and conditioning coaches, physiotherapists, and video analysis specialists.',
+
+        /* WHAT DO WE DO? */
+        queFemHeading: '¿WHAT DO <span>WE DO?</span>',
+        qf1Title: 'EVENT ORGANISATION',
+        qf1Desc: 'Design, planning, delivery and comprehensive management of handball camps, technical development clinics, tournaments, residential camps, training camps and sporting events, including technical coordination, promotion and participant recruitment.',
+        qf2Title: 'PARTNERSHIPS AND SPORTS PROJECTS',
+        qf2Desc: 'Building strategic partnerships between clubs and sports organisations to promote joint initiatives, share resources and develop sports projects at national and international levels.',
+        qf3Title: 'SPECIALISED COACH EDUCATION',
+        qf3Desc: 'Organisation of coaching courses, clinics, seminars and professional development sessions for handball coaches and coaching staff.',
+        qf4Title: 'SPORTS MANAGEMENT AND CONSULTANCY',
+        qf4Desc: 'Technical, methodological and organisational consultancy for clubs and sports organisations, supported by specialised professionals.',
+
+        /* FEATURED PROGRAMS */
+        programesHeading: 'FEATURED <br><span>PROGRAMS</span>',
+        prog1Title: 'HIGH PERFORMANCE DAY',
+        prog1P1: "An intensive high-performance training day designed to support players' overall development, combining position-specific technical and tactical training, physical fitness assessments, video analysis and technical sessions with experienced professional players and coaches.",
+        prog1P2: 'An immersive experience, with meals included, combining practical training, knowledge exchange and individual performance assessment to collect objective performance data, produce personalised reports and identify key areas for improvement.',
+        prog2Title: 'HE PLAYER | INDIVIDUAL PERFORMANCE COACHING',
+        prog2P1: 'A personalised performance coaching and monitoring programme based on video analysis of real match situations and technical and tactical assessment.',
+        prog2P2: "Through systematic game analysis, individual strengths and areas for improvement are identified, specific development goals are established, and each player's progress is monitored according to their individual profile and needs.",
+
+        /* EVENT */
+        titleEvent: 'UPCOMING <span>EVENT</span>',
+        evBadge: 'Summer Camp • Campus CHI',
+        evStatus: 'Coming Soon',
+        evName: 'CAMPUS CHI — HANDBALL EVENTS',
+        evDesc: 'Experience an unforgettable handball camp featuring high-performance skill sessions, tactical training, and team spirit. Official dates will be announced soon.',
+        evDatesLabel: 'Event Dates',
+        evDatesValue: 'To be confirmed',
+        evOrgLabel: 'Organization',
+        footerText: '© 2026 <strong>HE • HANDBALL EVENTS & CAMPUS CHI</strong>. All rights reserved.'
+      }
+    };
+
+    function setLanguage(lang) {
+      const t = I18N[lang] || I18N.ca;
+      document.documentElement.lang = t.langAttr;
+
+      ['ca', 'es', 'en'].forEach(code => {
+        const btn = document.getElementById(`btn-lang-${code}`);
+        if (btn) btn.classList.toggle('active', code === lang);
+      });
+
+      // Navbar
+      document.getElementById('nav-qui-som').textContent = t.navQuiSom;
+      document.getElementById('nav-que-fem').textContent = t.navQueFem;
+      document.getElementById('nav-programes').textContent = t.navProgrames;
+      document.getElementById('nav-event').textContent = t.navEvent;
+
+      // Hero
+      document.getElementById('hero-badge-text').textContent = t.heroBadge;
+      document.getElementById('hero-tagline').textContent = t.heroTagline;
+      document.getElementById('hero-desc').textContent = t.heroDesc;
+      document.getElementById('hero-btn-primary').textContent = t.heroBtnPrimary;
+      document.getElementById('hero-btn-secondary').textContent = t.heroBtnSecondary;
+
+      // QUI SOM?
+      document.getElementById('qui-som-heading').innerHTML = t.quiSomHeading;
+      document.getElementById('qui-som-p1').innerHTML = t.quiSomP1;
+      document.getElementById('qui-som-p2').innerHTML = t.quiSomP2;
+      document.getElementById('qui-som-p3').innerHTML = t.quiSomP3;
+
+      // QUÈ FEM?
+      document.getElementById('que-fem-heading').innerHTML = t.queFemHeading;
+      document.getElementById('qf-1-title').textContent = t.qf1Title;
+      document.getElementById('qf-1-desc').textContent = t.qf1Desc;
+      document.getElementById('qf-2-title').textContent = t.qf2Title;
+      document.getElementById('qf-2-desc').textContent = t.qf2Desc;
+      document.getElementById('qf-3-title').textContent = t.qf3Title;
+      document.getElementById('qf-3-desc').textContent = t.qf3Desc;
+      document.getElementById('qf-4-title').textContent = t.qf4Title;
+      document.getElementById('qf-4-desc').textContent = t.qf4Desc;
+
+      // PROGRAMES DESTACATS
+      document.getElementById('programes-heading').innerHTML = t.programesHeading;
+      document.getElementById('prog-1-title').textContent = t.prog1Title;
+      document.getElementById('prog-1-p1').textContent = t.prog1P1;
+      document.getElementById('prog-1-p2').textContent = t.prog1P2;
+      document.getElementById('prog-2-title').textContent = t.prog2Title;
+      document.getElementById('prog-2-p1').textContent = t.prog2P1;
+      document.getElementById('prog-2-p2').textContent = t.prog2P2;
+
+      // ESDEVENIMENT
+      document.getElementById('title-event').innerHTML = t.titleEvent;
+      document.getElementById('ev-badge').textContent = t.evBadge;
+      document.getElementById('ev-status').textContent = t.evStatus;
+      document.getElementById('ev-name').textContent = t.evName;
+      document.getElementById('ev-desc').textContent = t.evDesc;
+      document.getElementById('ev-dates-label').textContent = t.evDatesLabel;
+      document.getElementById('ev-dates-value').textContent = t.evDatesValue;
+      document.getElementById('ev-org-label').textContent = t.evOrgLabel;
+
+      // Footer
+      document.getElementById('footer-text').innerHTML = t.footerText;
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('nav-links').classList.toggle('mobile-open');
+    }
+
+    function closeMobileMenu() {
+      document.getElementById('nav-links').classList.remove('mobile-open');
+    }
+
+    function initParticles() {
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      let w = (canvas.width = window.innerWidth);
+      let h = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      });
+
+      const particles = Array.from({ length: 40 }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2.3 + 0.8,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: -Math.random() * 0.45 - 0.1,
+        gold: Math.random() > 0.28
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.y < 0) p.y = h;
+          if (p.x < 0) p.x = w;
+          if (p.x > w) p.x = 0;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.gold ? 'rgba(245, 197, 66, 0.55)' : 'rgba(56, 189, 248, 0.45)';
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setLanguage('ca'); // Inicia per defecte en català
+      initParticles();
+    });
+  </script>
+</body>
+</html>
